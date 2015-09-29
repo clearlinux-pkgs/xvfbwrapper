@@ -4,7 +4,7 @@
 #
 Name     : xvfbwrapper
 Version  : 0.2.5
-Release  : 8
+Release  : 9
 URL      : https://pypi.python.org/packages/source/x/xvfbwrapper/xvfbwrapper-0.2.5.tar.gz
 Source0  : https://pypi.python.org/packages/source/x/xvfbwrapper/xvfbwrapper-0.2.5.tar.gz
 Summary  : run headless display inside X virtual framebuffer (Xvfb)
