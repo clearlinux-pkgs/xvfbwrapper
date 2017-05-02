@@ -4,7 +4,7 @@
 #
 Name     : xvfbwrapper
 Version  : 0.2.9
-Release  : 20
+Release  : 21
 URL      : http://pypi.debian.net/xvfbwrapper/xvfbwrapper-0.2.9.tar.gz
 Source0  : http://pypi.debian.net/xvfbwrapper/xvfbwrapper-0.2.9.tar.gz
 Summary  : run headless display inside X virtual framebuffer (Xvfb)
