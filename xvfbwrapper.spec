@@ -4,51 +4,90 @@
 #
 Name     : xvfbwrapper
 Version  : 0.2.9
-Release  : 21
-URL      : http://pypi.debian.net/xvfbwrapper/xvfbwrapper-0.2.9.tar.gz
-Source0  : http://pypi.debian.net/xvfbwrapper/xvfbwrapper-0.2.9.tar.gz
+Release  : 22
+URL      : https://files.pythonhosted.org/packages/57/b6/4920eabda9b49630dea58745e79f9919aba6408d460afe758bf6e9b21a04/xvfbwrapper-0.2.9.tar.gz
+Source0  : https://files.pythonhosted.org/packages/57/b6/4920eabda9b49630dea58745e79f9919aba6408d460afe758bf6e9b21a04/xvfbwrapper-0.2.9.tar.gz
 Summary  : run headless display inside X virtual framebuffer (Xvfb)
 Group    : Development/Tools
 License  : MIT
-Requires: xvfbwrapper-python
-BuildRequires : pbr
-BuildRequires : pip
-BuildRequires : python-dev
-BuildRequires : python3-dev
-BuildRequires : setuptools
+Requires: xvfbwrapper-license = %{version}-%{release}
+Requires: xvfbwrapper-python = %{version}-%{release}
+Requires: xvfbwrapper-python3 = %{version}-%{release}
+BuildRequires : buildreq-distutils3
 
 %description
 ===============
-xvfbwrapper
-===============
-**Manage headless displays with Xvfb (X virtual framebuffer)**
+            xvfbwrapper
+        ===============
+        
+        
+        **Manage headless displays with Xvfb (X virtual framebuffer)**
+
+%package license
+Summary: license components for the xvfbwrapper package.
+Group: Default
+
+%description license
+license components for the xvfbwrapper package.
+
 
 %package python
 Summary: python components for the xvfbwrapper package.
 Group: Default
+Requires: xvfbwrapper-python3 = %{version}-%{release}
 
 %description python
 python components for the xvfbwrapper package.
 
 
+%package python3
+Summary: python3 components for the xvfbwrapper package.
+Group: Default
+Requires: python3-core
+Provides: pypi(xvfbwrapper)
+
+%description python3
+python3 components for the xvfbwrapper package.
+
+
 %prep
 %setup -q -n xvfbwrapper-0.2.9
+cd %{_builddir}/xvfbwrapper-0.2.9
 
 %build
-export LANG=C
-export SOURCE_DATE_EPOCH=1489033269
-python2 setup.py build -b py2
-python3 setup.py build -b py3
+export http_proxy=http://127.0.0.1:9/
+export https_proxy=http://127.0.0.1:9/
+export no_proxy=localhost,127.0.0.1,0.0.0.0
+export LANG=C.UTF-8
+export SOURCE_DATE_EPOCH=1638309152
+export GCC_IGNORE_WERROR=1
+export CFLAGS="$CFLAGS -fno-lto "
+export FCFLAGS="$FFLAGS -fno-lto "
+export FFLAGS="$FFLAGS -fno-lto "
+export CXXFLAGS="$CXXFLAGS -fno-lto "
+export MAKEFLAGS=%{?_smp_mflags}
+python3 setup.py build
 
 %install
-export SOURCE_DATE_EPOCH=1489033269
+export MAKEFLAGS=%{?_smp_mflags}
 rm -rf %{buildroot}
-python2 -tt setup.py build -b py2 install --root=%{buildroot} --force
-python3 -tt setup.py build -b py3 install --root=%{buildroot} --force
+mkdir -p %{buildroot}/usr/share/package-licenses/xvfbwrapper
+cp %{_builddir}/xvfbwrapper-0.2.9/LICENSE %{buildroot}/usr/share/package-licenses/xvfbwrapper/75517766e0e203357a38e226bce750c7723cfbd8
+python3 -tt setup.py build  install --root=%{buildroot}
+echo ----[ mark ]----
+cat %{buildroot}/usr/lib/python3*/site-packages/*/requires.txt || :
+echo ----[ mark ]----
 
 %files
 %defattr(-,root,root,-)
 
+%files license
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/xvfbwrapper/75517766e0e203357a38e226bce750c7723cfbd8
+
 %files python
 %defattr(-,root,root,-)
-/usr/lib/python*/*
+
+%files python3
+%defattr(-,root,root,-)
+/usr/lib/python3*/*
